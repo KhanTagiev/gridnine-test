@@ -1,0 +1,42 @@
+.search-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.search-sidebar__filter-form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px 10px;
+  border-radius: 10px;
+}
+
+.search-sidebar__filter-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.search-sidebar__inputs-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 15px 0 30px;
+}
+
+.search-sidebar__inputs-list:last-child {
+  padding-bottom: 0;
+}
+
+.search-sidebar__input_price {
+  margin-left: 5px;
+}
+
+.search-sidebar__input-container_price {
+  margin-bottom: 10px;
+}
+
+.search-sidebar__input-container_price:last-child {
+  margin-bottom: 0;
+}
