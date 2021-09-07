@@ -40,3 +40,8 @@
 .search-list__btn_hide {
   display: none;
 }
+
+.search-list__not-found {
+  display: flex;
+  justify-content: center;
+}

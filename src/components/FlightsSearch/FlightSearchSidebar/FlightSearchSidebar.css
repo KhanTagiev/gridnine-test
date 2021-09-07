@@ -30,6 +30,7 @@
 }
 
 .search-sidebar__input_price {
+  min-width: 120px;
   margin-left: 5px;
 }
 

@@ -1,6 +1,6 @@
 import "./FlightSearchSidebar.css";
 
-function FlightSearchSidebar() {
+function FlightSearchSidebar({minPrice,minPriceDefault, maxPrice,maxPriceDefault, onChangeMinPrice, onChangeMaxPrice}) {
   const radioMockFilters = [
     {
       title: "по возрастанию цены",
@@ -76,9 +76,12 @@ function FlightSearchSidebar() {
                 type="number"
                 className="search-sidebar__input search-sidebar__input_price"
                 name="flights-price-down"
-                value="0"
-                minLength="0"
-                maxLength="50000"
+                value={minPrice}
+                min={minPriceDefault}
+                max={maxPriceDefault}
+                placeholder="0"
+                required
+                onChange={onChangeMinPrice}
               />
             </label>
           </li>
@@ -89,9 +92,12 @@ function FlightSearchSidebar() {
                 type="number"
                 className="search-sidebar__input search-sidebar__input_price"
                 name="flights-up"
-                value="50000"
-                minLength="0"
-                maxLength="50000"
+                value={maxPrice}
+                min={minPriceDefault}
+                max={maxPriceDefault}
+                placeholder="50000"
+                required
+                onChange={onChangeMaxPrice}
               />
             </label>
           </li>
