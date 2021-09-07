@@ -1,0 +1,68 @@
+.flight-card {
+  border-radius: 10px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px 0 #a1a1a0;
+  background-color: white;
+  padding: 0;
+  overflow: hidden;
+}
+
+.flight-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0 0 5px 5px;
+  box-sizing: border-box;
+  background-color: #107be4;
+  padding: 5px 10px;
+}
+
+flight-card__carrier-logo {
+  width: 145px;
+  height: 33px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.flight-card__price-count {
+  color: white;
+  text-align: end;
+  margin: 0;
+}
+
+.flight-card__price-info {
+  color: white;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: end;
+  margin: 0;
+}
+
+.flight-card__routes-list {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.flight-card__btn {
+  background-color: #ffa43b;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 700;
+  width: calc(100% - 20px);
+  margin: 10px;
+  padding: 10px 30px;
+  cursor: pointer;
+  transition: opacity .5s ease-out, transform .3s ease;
+}
+
+.flight-card__btn:hover {
+  opacity: .7;
+}
+
+.flight-card__btn:active {
+  transform: scale(.98);
+}

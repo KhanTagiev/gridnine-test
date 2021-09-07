@@ -1,0 +1,42 @@
+.search-list {
+  overflow-y: auto;
+  padding: 25px 10px;
+}
+
+.search-list__container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  padding: 10px 0;
+  margin: 0;
+  list-style: none;
+}
+
+.search-list__btn-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 ;
+}
+
+.search-list__btn {
+  border-radius: 10px;
+  border: none;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px 0 #aba148;
+  background-color: #ffeb3b;
+  padding: 10px 30px;
+  cursor: pointer;
+  transition: opacity .5s ease-out, transform .3s ease;
+}
+
+.search-list__btn:hover {
+  opacity: .7;
+}
+
+.search-list__btn:active {
+  transform: scale(.95);
+}
+
+.search-list__btn_hide {
+  display: none;
+}
