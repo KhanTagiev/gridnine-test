@@ -9,43 +9,125 @@ function FlightsSearch() {
   const [flights, setFlights] = useState([]);
   const [filteredFlight, setFilteredFlights] = useState([]);
   const [minPriceDefault, setMinPriceDefault] = useState(0);
-  const [maxPriceDefault, setMaxPriceDefault] = useState(50000);
+  const [maxPriceDefault, setMaxPriceDefault] = useState(150000);
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(50000);
+  const [maxPrice, setMaxPrice] = useState(150000);
+  const [transferFilter, setTransferFilter] = useState([]);
+  const [flightSort, setFlightSort] = useState("price-up");
 
   useEffect(() => {
     setFlights(flightResult.result.flights);
-    const priceArray = flightResult.result.flights.map(item => item.flight.price.totalFeeAndTaxes.amount);
-    const newMinPrice = Math.min(...priceArray)
-    const newMaxPrice = Math.max(...priceArray)
+    const priceArray = flightResult.result.flights.map(
+      (item) => item.flight.price.total.amount
+    );
+    const newMinPrice = Math.min(...priceArray);
+    const newMaxPrice = Math.max(...priceArray);
     setMinPriceDefault(newMinPrice);
-    setMinPrice(newMinPrice)
+    setMinPrice(newMinPrice);
     setMaxPriceDefault(newMaxPrice);
-    setMaxPrice(newMaxPrice)
+    setMaxPrice(newMaxPrice);
   }, []);
 
   useEffect(() => {
     if (flights.length > 0) {
-      const newFilteredFlight = flights.filter(item => item.flight.price.totalFeeAndTaxes.amount >= Number(minPrice) && item.flight.price.totalFeeAndTaxes.amount <= Number(maxPrice))
-      setFilteredFlights(newFilteredFlight);
-      console.log(minPrice);
-      console.log(maxPrice);
-      console.log(newFilteredFlight);
+      const flightPriceFiltered = flights.filter(
+        (item) =>
+          item.flight.price.total.amount >= Number(minPrice) &&
+          item.flight.price.total.amount <= Number(maxPrice)
+      );
+      let flightTransferFiltered;
+      if (transferFilter.length === 1 && transferFilter.includes("0")) {
+        flightTransferFiltered = flightPriceFiltered.filter(
+          (item) =>
+            item.flight.legs[0].segments.length < 2 &&
+            item.flight.legs[1].segments.length < 2
+        );
+      } else if (transferFilter.length === 1 && transferFilter.includes("1")) {
+        flightTransferFiltered = flightPriceFiltered.filter(
+          (item) =>
+            item.flight.legs[0].segments.length > 1 ||
+            item.flight.legs[1].segments.length > 1
+        );
+      } else {
+        flightTransferFiltered = flightPriceFiltered;
+      }
+      if (flightSort === "price-up") {
+        setFilteredFlights(
+          flightTransferFiltered.sort(
+            (a, b) => a.flight.price.total.amount - b.flight.price.total.amount
+          )
+        );
+      }
+      if (flightSort === "price-down") {
+        setFilteredFlights(
+          flightTransferFiltered.sort(
+            (a, b) => b.flight.price.total.amount - a.flight.price.total.amount
+          )
+        );
+      }
+      if (flightSort === "travel-time") {
+        setFilteredFlights(
+          flightTransferFiltered.sort((a, b) => {
+            return (
+              a.flight.legs[0].duration +
+              a.flight.legs[1].duration -
+              b.flight.legs[0].duration -
+              b.flight.legs[0].duration
+            );
+          })
+        );
+      }
     }
-  }, [flights, minPrice, maxPrice])
+  }, [transferFilter, flightSort, flights, minPrice, maxPrice]);
 
   function handleChangeMinPrice(e) {
-    setMinPrice(e.target.value < maxPrice && e.target.value >= minPriceDefault && e.target.value <= maxPriceDefault ? e.target.value : minPrice)
+    setMinPrice(
+      e.target.value < maxPrice &&
+        e.target.value >= minPriceDefault &&
+        e.target.value <= maxPriceDefault
+        ? e.target.value
+        : minPrice
+    );
   }
 
   function handleChangeMaxPrice(e) {
-    setMaxPrice(e.target.value > minPrice && e.target.value >= minPriceDefault && e.target.value <= maxPriceDefault ? e.target.value : maxPrice)
+    setMaxPrice(
+      e.target.value > minPrice &&
+        e.target.value >= minPriceDefault &&
+        e.target.value <= maxPriceDefault
+        ? e.target.value
+        : maxPrice
+    );
+  }
+
+  function handleChangeFlightSort(e) {
+    setFlightSort(e.target.value);
+  }
+
+  function handleChangeTransferFilter(e) {
+    if (e.target.checked) {
+      setTransferFilter([...transferFilter, e.target.value]);
+    } else {
+      setTransferFilter(
+        transferFilter.filter((item) => item !== e.target.value)
+      );
+    }
   }
 
   return (
     <section className="section flight-search">
       <div className="flight-search__container">
-        <FlightSearchSidebar minPrice={minPrice} minPriceDefault={minPriceDefault} maxPriceDefault={maxPriceDefault} maxPrice={maxPrice} onChangeMinPrice={handleChangeMinPrice} onChangeMaxPrice={handleChangeMaxPrice} />
+        <FlightSearchSidebar
+          flightSort={flightSort}
+          onChangeFlightSort={handleChangeFlightSort}
+          onChangeTransferFilter={handleChangeTransferFilter}
+          minPrice={minPrice}
+          minPriceDefault={minPriceDefault}
+          maxPriceDefault={maxPriceDefault}
+          maxPrice={maxPrice}
+          onChangeMinPrice={handleChangeMinPrice}
+          onChangeMaxPrice={handleChangeMaxPrice}
+        />
         <FlightSearchList flights={filteredFlight} />
       </div>
     </section>

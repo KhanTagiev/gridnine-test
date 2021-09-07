@@ -15,7 +15,7 @@
 .search-list__btn-container {
   display: flex;
   justify-content: center;
-  padding: 10px 0 ;
+  padding: 10px 0;
 }
 
 .search-list__btn {
@@ -26,15 +26,15 @@
   background-color: #ffeb3b;
   padding: 10px 30px;
   cursor: pointer;
-  transition: opacity .5s ease-out, transform .3s ease;
+  transition: opacity 0.5s ease-out, transform 0.3s ease;
 }
 
 .search-list__btn:hover {
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .search-list__btn:active {
-  transform: scale(.95);
+  transform: scale(0.95);
 }
 
 .search-list__btn_hide {

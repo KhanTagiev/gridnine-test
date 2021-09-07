@@ -1,6 +1,16 @@
 import "./FlightSearchSidebar.css";
 
-function FlightSearchSidebar({minPrice,minPriceDefault, maxPrice,maxPriceDefault, onChangeMinPrice, onChangeMaxPrice}) {
+function FlightSearchSidebar({
+  flightSort,
+  onChangeFlightSort,
+  onChangeTransferFilter,
+  minPrice,
+  minPriceDefault,
+  maxPrice,
+  maxPriceDefault,
+  onChangeMinPrice,
+  onChangeMaxPrice,
+}) {
   const radioMockFilters = [
     {
       title: "по возрастанию цены",
@@ -22,12 +32,12 @@ function FlightSearchSidebar({minPrice,minPriceDefault, maxPrice,maxPriceDefault
   const checkboxMockFilters = [
     {
       title: "1 пересадка",
-      value: "transfer-1",
+      value: "1",
       id: "checkbox-1",
     },
     {
       title: "без пересадок",
-      value: "transfer-0",
+      value: "0",
       id: "checkbox-2",
     },
   ];
@@ -45,6 +55,8 @@ function FlightSearchSidebar({minPrice,minPriceDefault, maxPrice,maxPriceDefault
                   className="search-sidebar__input search-sidebar__input_sort"
                   name="flights-sort"
                   value={radio.value}
+                  checked={flightSort === radio.value}
+                  onChange={onChangeFlightSort}
                 />
                 — {radio.title}
               </label>
@@ -61,6 +73,7 @@ function FlightSearchSidebar({minPrice,minPriceDefault, maxPrice,maxPriceDefault
                   className="search-sidebar__input search-sidebar__input_filter"
                   name="flights-filter"
                   value={checkbox.value}
+                  onChange={onChangeTransferFilter}
                 />
                 — {checkbox.title}
               </label>
