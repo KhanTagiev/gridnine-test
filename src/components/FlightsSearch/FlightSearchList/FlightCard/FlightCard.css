@@ -17,11 +17,23 @@
   padding: 5px 10px;
 }
 
+.flight-card__carrier-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .flight-card__carrier-logo {
-  width: 145px;
-  height: 33px;
-  object-fit: cover;
+  width: 40px;
+  height: 25px;
+  object-fit: contain;
   object-position: center;
+}
+
+.flight-card__carrier-text {
+  max-width: 260px;
+  color: white;
+  margin: 0;
 }
 
 .flight-card__price-count {
@@ -41,6 +53,52 @@
 .flight-card__routes-list {
   list-style: none;
   padding: 10px;
+  margin: 0;
+}
+
+.flight-card__route-container:last-child {
+  border-top: #107be4 2px solid;
+}
+
+.flight-card__route-title {
+  border-bottom: #107be4 1px solid;
+  padding: 10px 0;
+  margin: 0 10px;
+}
+
+.flight-card__text {
+  margin: 0;
+  padding: 0;
+}
+.flight-card__text_blue {
+  color: #107be4;
+  margin: 0 4px;
+}
+
+.flight-card__route-dates {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: #107be4 1px solid;
+  padding: 10px 0;
+  margin: 0 20px;
+  position: relative;
+}
+
+.flight-card__route-carrier {
+  padding: 15px 0 10px;
+  margin: 0 10px;
+}
+
+.flight-card__transfer-info {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  background-color: white;
+  color: #ffa43b;
+  padding: 0 5px;
   margin: 0;
 }
 

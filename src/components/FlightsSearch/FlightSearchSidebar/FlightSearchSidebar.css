@@ -2,12 +2,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0 0 0 20px;
 }
 
 .search-sidebar__filter-form {
   display: flex;
   flex-direction: column;
   background-color: white;
+  box-shadow: 0 0 5px #a1a1a0;
   padding: 20px 10px;
   border-radius: 10px;
 }
@@ -29,9 +31,14 @@
   padding-bottom: 0;
 }
 
+.search-sidebar__input {
+  cursor: pointer;
+}
+
 .search-sidebar__input_price {
   min-width: 120px;
   margin-left: 5px;
+  cursor: text;
 }
 
 .search-sidebar__input-container_price {
