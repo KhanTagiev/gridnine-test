@@ -8,12 +8,14 @@ import flightResult from "../../utils/flights.json";
 function FlightsSearch() {
   const [flights, setFlights] = useState([]);
   const [filteredFlight, setFilteredFlights] = useState([]);
+  const [flightSort, setFlightSort] = useState("price-up");
+  const [transferFilter, setTransferFilter] = useState([]);
   const [minPriceDefault, setMinPriceDefault] = useState(0);
   const [maxPriceDefault, setMaxPriceDefault] = useState(150000);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(150000);
-  const [transferFilter, setTransferFilter] = useState([]);
-  const [flightSort, setFlightSort] = useState("price-up");
+  const [airlinesCarrier, setAirlinesCarrier] = useState([]);
+  const [airlinesFilter, setAirlinesFilter] = useState([]);
 
   useEffect(() => {
     setFlights(flightResult.result.flights);
@@ -22,10 +24,16 @@ function FlightsSearch() {
     );
     const newMinPrice = Math.min(...priceArray);
     const newMaxPrice = Math.max(...priceArray);
+    const newAirlinesCarrier = Array.from(
+      new Set(
+        flightResult.result.flights.map((item) => item.flight.carrier.caption)
+      )
+    );
     setMinPriceDefault(newMinPrice);
     setMinPrice(newMinPrice);
     setMaxPriceDefault(newMaxPrice);
     setMaxPrice(newMaxPrice);
+    setAirlinesCarrier(newAirlinesCarrier);
   }, []);
 
   useEffect(() => {
@@ -51,23 +59,37 @@ function FlightsSearch() {
       } else {
         flightTransferFiltered = flightPriceFiltered;
       }
+      let flightAirlinesFiltered;
+      if (airlinesFilter.length > 0) {
+        let airlinesFilterResult = [];
+
+        airlinesFilter.forEach((airline) => {
+          const newAirlineFilterResult = flightTransferFiltered.filter(
+            (item) => item.flight.carrier.caption === airline
+          );
+          airlinesFilterResult.push(...newAirlineFilterResult);
+        });
+        flightAirlinesFiltered = airlinesFilterResult;
+      } else {
+        flightAirlinesFiltered = flightTransferFiltered;
+      }
       if (flightSort === "price-up") {
         setFilteredFlights(
-          flightTransferFiltered.sort(
+          flightAirlinesFiltered.sort(
             (a, b) => a.flight.price.total.amount - b.flight.price.total.amount
           )
         );
       }
       if (flightSort === "price-down") {
         setFilteredFlights(
-          flightTransferFiltered.sort(
+          flightAirlinesFiltered.sort(
             (a, b) => b.flight.price.total.amount - a.flight.price.total.amount
           )
         );
       }
       if (flightSort === "travel-time") {
         setFilteredFlights(
-          flightTransferFiltered.sort((a, b) => {
+          flightAirlinesFiltered.sort((a, b) => {
             return (
               a.flight.legs[0].duration +
               a.flight.legs[1].duration -
@@ -78,7 +100,7 @@ function FlightsSearch() {
         );
       }
     }
-  }, [transferFilter, flightSort, flights, minPrice, maxPrice]);
+  }, [transferFilter, flightSort, flights, minPrice, maxPrice, airlinesFilter]);
 
   function handleChangeMinPrice(e) {
     setMinPrice(
@@ -114,6 +136,16 @@ function FlightsSearch() {
     }
   }
 
+  function handleChangeAirlinesFilter(e) {
+    if (e.target.checked) {
+      setAirlinesFilter([...airlinesFilter, e.target.value]);
+    } else {
+      setAirlinesFilter(
+        airlinesFilter.filter((item) => item !== e.target.value)
+      );
+    }
+  }
+
   return (
     <section className="section flight-search">
       <div className="flight-search__container">
@@ -127,6 +159,8 @@ function FlightsSearch() {
           maxPrice={maxPrice}
           onChangeMinPrice={handleChangeMinPrice}
           onChangeMaxPrice={handleChangeMaxPrice}
+          airlinesCarrier={airlinesCarrier}
+          onChangeAirlinesFilter={handleChangeAirlinesFilter}
         />
         <FlightSearchList flights={filteredFlight} />
       </div>

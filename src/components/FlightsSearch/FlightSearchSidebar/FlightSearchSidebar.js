@@ -10,6 +10,8 @@ function FlightSearchSidebar({
   maxPriceDefault,
   onChangeMinPrice,
   onChangeMaxPrice,
+  airlinesCarrier,
+  onChangeAirlinesFilter,
 }) {
   const radioMockFilters = [
     {
@@ -44,77 +46,89 @@ function FlightSearchSidebar({
 
   return (
     <div className="search-sidebar">
-      <form className="search-sidebar__filter-form">
-        <p className="search-sidebar__filter-title">Сортировать</p>
-        <ul className="search-sidebar__inputs-list">
+      <form className="search-sidebar__form">
+        <fieldset className="search-sidebar__fieldset">
+          <legend className="search-sidebar__legend">Сортировать</legend>
           {radioMockFilters.map((radio) => (
-            <li>
-              <label key={radio.id} className="search-sidebar__label">
-                <input
-                  type="radio"
-                  className="search-sidebar__input search-sidebar__input_sort"
-                  name="flights-sort"
-                  value={radio.value}
-                  checked={flightSort === radio.value}
-                  onChange={onChangeFlightSort}
-                />
-                — {radio.title}
-              </label>
-            </li>
+            <label key={radio.id} className="search-sidebar__label">
+              <input
+                type="radio"
+                className="search-sidebar__input search-sidebar__input_sort"
+                name="flights-sort"
+                value={radio.value}
+                checked={flightSort === radio.value}
+                onChange={onChangeFlightSort}
+              />
+              — {radio.title}
+            </label>
           ))}
-        </ul>
-        <p className="search-sidebar__filter-title">Фильтровать</p>
-        <ul className="search-sidebar__inputs-list">
+        </fieldset>
+        <fieldset className="search-sidebar__fieldset">
+          <legend className="search-sidebar__legend">Фильтровать</legend>
           {checkboxMockFilters.map((checkbox) => (
-            <li>
-              <label key={checkbox.id} className="search-sidebar__label">
+            <label key={checkbox.id} className="search-sidebar__label">
+              <input
+                type="checkbox"
+                className="search-sidebar__input search-sidebar__input_filter"
+                name="flights-filter"
+                value={checkbox.value}
+                onChange={onChangeTransferFilter}
+              />
+              — {checkbox.title}
+            </label>
+          ))}
+        </fieldset>
+
+        <fieldset className="search-sidebar__fieldset">
+          <legend className="search-sidebar__legend">Цена</legend>
+          <label className="search-sidebar__label">
+            От
+            <input
+              type="number"
+              className="search-sidebar__input search-sidebar__input_price"
+              name="flights-price-down"
+              value={minPrice}
+              min={minPriceDefault}
+              max={maxPriceDefault}
+              placeholder="0"
+              required
+              onChange={onChangeMinPrice}
+            />
+          </label>
+          <label className="search-sidebar__label">
+            До
+            <input
+              type="number"
+              className="search-sidebar__input search-sidebar__input_price"
+              name="flights-up"
+              value={maxPrice}
+              min={minPriceDefault}
+              max={maxPriceDefault}
+              placeholder="50000"
+              required
+              onChange={onChangeMaxPrice}
+            />
+          </label>
+        </fieldset>
+        <fieldset className="search-sidebar__fieldset">
+          <legend className="search-sidebar__legend">Авиалинии</legend>
+          {airlinesCarrier.length > 0 ? (
+            airlinesCarrier.map((airline) => (
+              <label key={airline} className="search-sidebar__label">
                 <input
                   type="checkbox"
                   className="search-sidebar__input search-sidebar__input_filter"
                   name="flights-filter"
-                  value={checkbox.value}
-                  onChange={onChangeTransferFilter}
+                  value={airline}
+                  onChange={onChangeAirlinesFilter}
                 />
-                — {checkbox.title}
+                — {airline}
               </label>
-            </li>
-          ))}
-        </ul>
-        <p className="search-sidebar__filter-title">Цена</p>
-        <ul className="search-sidebar__inputs-list">
-          <li className="search-sidebar__input-container search-sidebar__input-container_price">
-            <label className="search-sidebar__label">
-              От
-              <input
-                type="number"
-                className="search-sidebar__input search-sidebar__input_price"
-                name="flights-price-down"
-                value={minPrice}
-                min={minPriceDefault}
-                max={maxPriceDefault}
-                placeholder="0"
-                required
-                onChange={onChangeMinPrice}
-              />
-            </label>
-          </li>
-          <li>
-            <label className="search-sidebar__label">
-              До
-              <input
-                type="number"
-                className="search-sidebar__input search-sidebar__input_price"
-                name="flights-up"
-                value={maxPrice}
-                min={minPriceDefault}
-                max={maxPriceDefault}
-                placeholder="50000"
-                required
-                onChange={onChangeMaxPrice}
-              />
-            </label>
-          </li>
-        </ul>
+            ))
+          ) : (
+            <></>
+          )}
+        </fieldset>
       </form>
     </div>
   );
